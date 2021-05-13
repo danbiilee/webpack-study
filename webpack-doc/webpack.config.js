@@ -1,26 +1,34 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: 'development',
-  entry: {
-    index: './src/index.js',
-    print: './src/print.js',
-  },
-  devtool: 'inline-source-map',
+  mode: "development",
+  entry: "./src/index.js",
+  devtool: "inline-source-map",
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname, "dist"),
     port: 9000,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Development',
+      title: "Caching",
     }),
   ],
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "[name].[contenthash].js",
+    path: path.resolve(__dirname, "dist"),
     clean: true,
-    publicPath: '/'
+  },
+  optimization: {
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[/\\]node_modules[/\\]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   },
 };
