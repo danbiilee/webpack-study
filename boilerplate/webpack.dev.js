@@ -1,34 +1,31 @@
 const path = require('path');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+module.exports = merge(common, {
   mode: 'development',
-  entry: './src/index.js',
-  output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
-  },
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    port: 9000,
-    hot: true,
+    contentBase: './dist',
+    port: 3000,
+  },
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.css/,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Hot Module Replacement',
+      template: './src/template.html',
     }),
   ],
-  optimization: {
-    usedExports: true,
-  },
-};
+});
