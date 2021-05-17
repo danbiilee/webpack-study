@@ -1,18 +1,7 @@
-const path = require('path');
+// loader: 자바스크립트가 아닌 파일도 웹팩이 번들링할 수 있도록
 
 module.exports = {
-  entry: './src/index.js',
-  output: {
-    filename() {
-      if (process.env.NODE_ENV === 'development') {
-        return 'AAA[name].js';
-      }
-      return '[name].[contenthash].js';
-    },
-    path: path.resolve(__dirname, 'build'),
-    publicPath: 'http://localhost:3000',
-    clean: true,
-  },
+  entry: './src/index.js', // 빌드할 기준 파일
   module: {
     rules: [
       { test: /\.html$/, use: ['html-loader'] },
@@ -20,26 +9,9 @@ module.exports = {
         test: /\.(j|t)sx?$/,
         exclude: /node_modules/,
         use: {
+          // 바벨로 하위 버전 호환되도록 변환 -> 패키지 폴더는 변환할 필요 없음
           loader: 'babel-loader',
         },
-      },
-      {
-        test: /\.(svg|png|jpe?g|gif|ico)$/i,
-        type: 'asset', // file-size 8k 이상이면 파일로, 아니면 data uri로
-        // use: {
-        //   loader: 'url-loader',
-        //   options: {
-        //     limit: 4000,
-        //     outputPath: 'images',
-        //     name() {
-        //       if (process.env.NODE_ENV === 'development') {
-        //         return 'AAA[name].[ext]';
-        //       }
-        //       return '[name].[contenthash].[ext]';
-        //     },
-        //     esModule: false,
-        //   },
-        // },
       },
     ],
   },

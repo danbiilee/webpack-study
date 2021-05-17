@@ -10,11 +10,37 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'build'),
+    clean: true,
+  },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.(svg|png|jpe?g|gif|ico)$/i,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 8000,
+            outputPath: 'images',
+            name: '[name].[contenthash].[ext]',
+          },
+        },
+      },
+      {
+        test: /.(woff|woff2|eot|ttf|otf)$/i,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: 'fonts',
+            name: '[name].[contenthash].[ext]',
+          },
+        },
       },
     ],
   },
@@ -22,20 +48,15 @@ module.exports = merge(common, {
   optimization: {
     minimizer: [
       new CssMinimizerPlugin(),
-      new TerserPlugin(),
+      new TerserPlugin({
+        extractComments: false,
+      }),
       new HtmlWebpackPlugin({
-        //template: './public/index.html',
+        template: './public/index.html',
         minify: {
           removeAttributeQuotes: true,
           collapseWhitespace: true,
         },
-      }),
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: 'public',
-          },
-        ],
       }),
     ],
   },

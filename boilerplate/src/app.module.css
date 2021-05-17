@@ -1,0 +1,12 @@
+@import './test.module.css';
+
+.div {
+  display: flex;
+  background: burlywood;
+  background-image: url('../public/images/profile.jpg');
+
+  & .p {
+    color: var(--color);
+    font-weight: bold;
+  }
+}
