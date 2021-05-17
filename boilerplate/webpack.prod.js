@@ -5,15 +5,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
-  output: {
-    filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'build'),
-    clean: true,
-  },
   module: {
     rules: [
       {
@@ -28,11 +24,18 @@ module.exports = merge(common, {
       new CssMinimizerPlugin(),
       new TerserPlugin(),
       new HtmlWebpackPlugin({
-        template: './src/template.html',
+        //template: './public/index.html',
         minify: {
           removeAttributeQuotes: true,
           collapseWhitespace: true,
         },
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: 'public',
+          },
+        ],
       }),
     ],
   },

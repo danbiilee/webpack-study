@@ -7,13 +7,8 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './dist',
+    contentBase: path.resolve(__dirname, 'public'),
     port: 3000,
-  },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
   },
   module: {
     rules: [
@@ -25,7 +20,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/template.html',
+      template: './public/index.html',
     }),
   ],
 });
