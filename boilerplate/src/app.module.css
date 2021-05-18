@@ -1,12 +1,11 @@
-@import './test.module.css';
-
 .div {
   display: flex;
+  flex-direction: column;
   background: burlywood;
-  background-image: url('../public/images/profile.jpg');
+  /* background-image: url('../public/images/profile.jpg'); */
 
-  & .p {
+  /* & .p {
     color: var(--color);
     font-weight: bold;
-  }
+  } */
 }
