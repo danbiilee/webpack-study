@@ -52,7 +52,6 @@ module.exports = merge(common, {
   plugins: [new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })],
   optimization: {
     minimizer: [
-      new CssMinimizerPlugin(),
       new TerserPlugin({
         extractComments: false,
       }),
@@ -63,6 +62,7 @@ module.exports = merge(common, {
           collapseWhitespace: true,
         },
       }),
+      new CssMinimizerPlugin(),
     ],
   },
 });

@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -8,7 +7,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'public'), // 정적 파일
+    static: path.resolve(__dirname, 'public'),
     port: 3000,
   },
   output: {
@@ -36,6 +35,5 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    new webpack.HotModuleReplacementPlugin(),
   ],
 });
